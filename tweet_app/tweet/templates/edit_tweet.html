@@ -1,11 +1,53 @@
 {% extends "layout.html" %}
 
 {% block title %}
- Tweet
+    Post Tweet
 {% endblock %}
 
 {% block content %}
-  <div>
-    <h1>Make Your Tweet</h1>
-  </div>
+<div class="max-w-2xl mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">
+        {% if form.instance.pk %}
+            Edit Your Tweet
+        {% else %}
+            Post Your Valuable Tweet
+        {% endif %}
+    </h1>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Text Field -->
+        <div>
+            <label for="id_text" class="block mb-2 text-sm font-medium
+             text-gray-900 dark:text-white">
+                Your Tweet
+            </label>
+            {{ form.text }}
+            {% if form.text.errors %}
+                <p class="text-sm text-red-600">{{ form.text.errors }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Photo Upload Field -->
+        <div>
+            <label for="id_photo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Upload Image (Optional)
+            </label>
+            {{ form.photo }}
+            {% if form.photo.errors %}
+                <p class="text-sm text-red-600">{{ form.photo.errors }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500">
+            {% if form.instance.pk %}
+                Update Tweet
+            {% else %}
+                Post Tweet
+            {% endif %}
+        </button>
+    </form>
+</div>
 {% endblock %}
